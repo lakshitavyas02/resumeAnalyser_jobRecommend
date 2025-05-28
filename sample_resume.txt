@@ -1,0 +1,80 @@
+JOHN DOE
+Software Engineer
+Email: john.doe@email.com
+Phone: (555) 123-4567
+LinkedIn: linkedin.com/in/johndoe
+Location: San Francisco, CA
+
+PROFESSIONAL SUMMARY
+Experienced Software Engineer with 5+ years of expertise in full-stack web development, 
+machine learning, and cloud technologies. Proven track record of building scalable 
+applications using modern frameworks and delivering high-quality software solutions.
+
+TECHNICAL SKILLS
+Programming Languages: Python, JavaScript, Java, TypeScript, SQL
+Web Technologies: React, Node.js, HTML, CSS, Express.js, Vue.js
+Frameworks & Libraries: Django, Flask, Spring Boot, TensorFlow, Pandas, NumPy
+Databases: PostgreSQL, MongoDB, MySQL, Redis
+Cloud & DevOps: AWS, Docker, Kubernetes, Jenkins, Git, CI/CD
+Tools & Technologies: Linux, Agile, Scrum, REST APIs, GraphQL
+
+PROFESSIONAL EXPERIENCE
+
+Senior Software Engineer | TechCorp Inc. | 2021 - Present
+• Developed and maintained scalable web applications using React and Node.js
+• Implemented machine learning models using Python and TensorFlow for data analysis
+• Designed and optimized database schemas in PostgreSQL, improving query performance by 40%
+• Led a team of 4 developers in an Agile environment using Scrum methodology
+• Deployed applications on AWS using Docker and Kubernetes for container orchestration
+• Collaborated with cross-functional teams to deliver features on time and within budget
+
+Software Developer | StartupXYZ | 2019 - 2021
+• Built responsive web applications using JavaScript, React, and Express.js
+• Developed RESTful APIs and integrated third-party services
+• Worked with MongoDB for data storage and implemented caching with Redis
+• Participated in code reviews and maintained high code quality standards
+• Used Git for version control and implemented CI/CD pipelines with Jenkins
+
+Junior Developer | WebSolutions LLC | 2018 - 2019
+• Assisted in developing frontend components using HTML, CSS, and JavaScript
+• Learned and applied modern web development frameworks
+• Participated in daily standups and sprint planning meetings
+• Gained experience with database design and SQL queries
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of California, Berkeley | 2014 - 2018
+Relevant Coursework: Data Structures, Algorithms, Database Systems, Software Engineering
+
+PROJECTS
+
+E-Commerce Platform
+• Built a full-stack e-commerce application using React, Node.js, and PostgreSQL
+• Implemented user authentication, payment processing, and order management
+• Deployed on AWS with auto-scaling and load balancing
+
+Machine Learning Recommendation System
+• Developed a recommendation engine using Python, scikit-learn, and collaborative filtering
+• Processed large datasets with Pandas and NumPy for feature engineering
+• Achieved 85% accuracy in product recommendations
+
+Real-time Chat Application
+• Created a real-time messaging app using Socket.io, Express.js, and MongoDB
+• Implemented user authentication and message encryption
+• Deployed using Docker containers on AWS ECS
+
+CERTIFICATIONS
+• AWS Certified Solutions Architect - Associate (2022)
+• Certified Scrum Master (CSM) (2021)
+• Google Cloud Professional Cloud Architect (2020)
+
+ACHIEVEMENTS
+• Led the development of a critical feature that increased user engagement by 30%
+• Optimized application performance, reducing load times by 50%
+• Mentored 3 junior developers and conducted technical interviews
+• Contributed to open-source projects with over 500 GitHub stars
+
+LANGUAGES
+• English (Native)
+• Spanish (Conversational)
+• Mandarin (Basic)

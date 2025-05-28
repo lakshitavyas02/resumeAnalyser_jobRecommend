@@ -1,0 +1,46 @@
+# Web Framework
+Flask
+Flask-CORS
+
+# NLP and Text Processing
+spacy
+nltk
+textblob
+
+# PDF and Document Processing
+PyMuPDF
+python-docx
+docx2txt
+
+# Machine Learning and Data Science
+scikit-learn
+numpy
+pandas
+scipy
+
+# Text Similarity and Embeddings
+sentence-transformers
+
+# Database (sqlite3 is built into Python)
+
+# File Handling
+Werkzeug
+
+# Data Visualization (for future enhancements)
+matplotlib
+seaborn
+
+# Utilities
+python-dotenv
+requests
+
+# Development and Testing
+pytest
+pytest-flask
+
+# Additional NLP Tools
+regex
+beautifulsoup4
+
+# For deployment
+gunicorn

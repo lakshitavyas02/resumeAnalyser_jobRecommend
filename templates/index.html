@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer & Job Match Recommender</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-file-alt me-2"></i>
+                Resume Analyzer
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold text-primary mb-4">
+                        Find Your Perfect Job Match
+                    </h1>
+                    <p class="lead mb-4">
+                        Upload your resume and let our AI-powered system analyze your skills and recommend the most relevant job opportunities tailored just for you.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-primary btn-lg" onclick="scrollToUpload()">
+                            <i class="fas fa-upload me-2"></i>
+                            Get Started
+                        </button>
+                        <button class="btn btn-outline-primary btn-lg" onclick="scrollToFeatures()">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <i class="fas fa-chart-line fa-10x text-primary opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload" class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-header bg-primary text-white text-center py-4">
+                            <h3 class="mb-0">
+                                <i class="fas fa-cloud-upload-alt me-2"></i>
+                                Upload Your Resume
+                            </h3>
+                            <p class="mb-0 mt-2">Supported formats: PDF, DOCX</p>
+                        </div>
+                        <div class="card-body p-5">
+                            <form id="resumeForm" enctype="multipart/form-data">
+                                <div class="upload-area" id="uploadArea">
+                                    <div class="upload-content">
+                                        <i class="fas fa-file-upload fa-3x text-muted mb-3"></i>
+                                        <h5 class="text-muted">Drag & Drop your resume here</h5>
+                                        <p class="text-muted">or click to browse files</p>
+                                        <input type="file" id="resumeFile" name="resume" accept=".pdf,.docx,.doc" class="d-none">
+                                        <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('resumeFile').click()">
+                                            <i class="fas fa-folder-open me-2"></i>
+                                            Choose File
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="fileInfo" class="mt-3 d-none">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-file me-2"></i>
+                                        <span id="fileName"></span>
+                                        <button type="button" class="btn-close float-end" onclick="clearFile()"></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn" disabled>
+                                        <i class="fas fa-cogs me-2"></i>
+                                        Analyze Resume
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Section -->
+    <section id="loading" class="py-5 d-none">
+        <div class="container text-center">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h4 class="mt-3">Analyzing your resume...</h4>
+            <p class="text-muted">This may take a few moments</p>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="py-5 d-none">
+        <div class="container">
+            <!-- Resume Analysis Results -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Resume Analysis
+                    </h2>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-tools fa-2x text-primary mb-3"></i>
+                            <h5>Skills Found</h5>
+                            <h3 class="text-primary" id="skillsCount">0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-briefcase fa-2x text-success mb-3"></i>
+                            <h5>Experience</h5>
+                            <h3 class="text-success" id="experienceCount">0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-graduation-cap fa-2x text-info mb-3"></i>
+                            <h5>Education</h5>
+                            <h3 class="text-info" id="educationCount">0</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Display -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-cogs me-2"></i>
+                                Extracted Skills
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="skillsList" class="d-flex flex-wrap gap-2">
+                                <!-- Skills will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Recommendations -->
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">
+                        <i class="fas fa-star me-2"></i>
+                        Recommended Jobs
+                    </h2>
+                    <div id="jobRecommendations">
+                        <!-- Job recommendations will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose Our Resume Analyzer?</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                        <h4>AI-Powered Analysis</h4>
+                        <p>Advanced NLP algorithms extract skills, experience, and qualifications from your resume.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-bullseye fa-3x text-success mb-3"></i>
+                        <h4>Smart Job Matching</h4>
+                        <p>Our system matches you with jobs based on skill compatibility and experience level.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                        <h4>Skill Gap Analysis</h4>
+                        <p>Identify missing skills and get recommendations to improve your job prospects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>&copy; 2024 Resume Analyzer & Job Match Recommender. All rights reserved.</p>
+            <p class="mb-0">Built with ❤️ using Flask, Python, and AI</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

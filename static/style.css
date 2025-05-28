@@ -1,0 +1,490 @@
+/* Custom CSS for Resume Analyzer */
+
+/* Global Styles */
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --info-color: #0dcaf0;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--dark-color);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Override text colors in hero section for better contrast */
+.hero-section h1,
+.hero-section .display-4 {
+  color: white !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-section p,
+.hero-section .lead {
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section .text-primary {
+  color: white !important;
+}
+
+.hero-section i.text-primary {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Hero section button styles for better contrast */
+.hero-section .btn-primary {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid white;
+  color: white !important;
+  backdrop-filter: blur(10px);
+  font-weight: 600;
+}
+
+.hero-section .btn-primary:hover {
+  background: white;
+  color: #667eea !important;
+  border-color: white;
+  transform: translateY(-2px);
+}
+
+.hero-section .btn-outline-primary {
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  color: white !important;
+  background: transparent;
+  font-weight: 600;
+}
+
+.hero-section .btn-outline-primary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+.hero-image {
+  text-align: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Upload Area Styles */
+.upload-area {
+  border: 3px dashed #dee2e6;
+  border-radius: 10px;
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: #f8f9fa;
+}
+
+.upload-area:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.upload-area.dragover {
+  border-color: var(--primary-color);
+  background-color: rgba(13, 110, 253, 0.1);
+  transform: scale(1.02);
+}
+
+.upload-content i {
+  transition: all 0.3s ease;
+}
+
+.upload-area:hover .upload-content i {
+  transform: scale(1.1);
+  color: var(--primary-color) !important;
+}
+
+/* Card Styles */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  border-radius: 15px 15px 0 0 !important;
+  border-bottom: none;
+}
+
+/* Feature Cards */
+.feature-card {
+  padding: 2rem;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+.feature-card i {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover i {
+  transform: scale(1.2);
+}
+
+/* Button Styles */
+.btn {
+  border-radius: 25px;
+  padding: 0.75rem 2rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #5a6fd8, #6a4190);
+}
+
+/* Skills Display */
+.skill-tag {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--primary-color), #6f42c1);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Job Card Styles */
+.job-card {
+  border: 1px solid #e9ecef;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.job-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 8px 25px rgba(13, 110, 253, 0.15);
+  transform: translateY(-3px);
+}
+
+.match-score {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.match-score.high {
+  color: var(--success-color);
+}
+
+.match-score.medium {
+  color: var(--warning-color);
+}
+
+.match-score.low {
+  color: var(--danger-color);
+}
+
+/* Progress Bars */
+.progress {
+  height: 8px;
+  border-radius: 10px;
+  background-color: #e9ecef;
+}
+
+.progress-bar {
+  border-radius: 10px;
+  transition: width 0.6s ease;
+}
+
+/* Loading Animations */
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 0.3rem solid rgba(13, 110, 253, 0.2);
+  border-top: 0.3rem solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse Animation for Loading States */
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Navbar Styles */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500;
+  margin: 0 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  transform: translateY(-2px);
+}
+
+/* Footer Styles */
+footer {
+  margin-top: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .upload-area {
+    padding: 2rem 1rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section .lead {
+    font-size: 1rem;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .job-card {
+    padding: 1rem;
+  }
+}
+
+/* Dashboard Specific Styles */
+.dashboard-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border: none;
+  border-radius: 15px;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Chart Container */
+.chart-container {
+  position: relative;
+  height: 300px;
+  margin: 1rem 0;
+}
+
+/* Skill Gap Analysis */
+.skill-gap-item {
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-color);
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.missing-skill {
+  border-left-color: var(--danger-color);
+  background-color: rgba(220, 53, 69, 0.05);
+}
+
+.matching-skill {
+  border-left-color: var(--success-color);
+  background-color: rgba(25, 135, 84, 0.05);
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(45deg, var(--primary-color), #6f42c1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-lg-custom {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.border-gradient {
+  border: 2px solid;
+  border-image: linear-gradient(45deg, var(--primary-color), #6f42c1) 1;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, var(--primary-color), #6f42c1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #5a6fd8, #6a4190);
+}

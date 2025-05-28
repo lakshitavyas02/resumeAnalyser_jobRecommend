@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Resume Analyzer</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-file-alt me-2"></i>
+                Resume Analyzer
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <section class="py-4 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        Your Dashboard
+                    </h1>
+                    <p class="text-muted mb-0">Track your resume analyses and job matches</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button class="btn btn-primary" onclick="window.location.href='/'">
+                        <i class="fas fa-plus me-2"></i>
+                        New Analysis
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Session ID Input -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-key me-2"></i>
+                                Load Your Data
+                            </h5>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="sessionIdInput" 
+                                       placeholder="Enter your session ID">
+                                <button class="btn btn-primary" onclick="loadUserData()">
+                                    <i class="fas fa-search me-2"></i>
+                                    Load
+                                </button>
+                            </div>
+                            <small class="text-muted">
+                                Your session ID is provided after uploading a resume
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Quick Stats
+                            </h5>
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <h4 class="text-primary mb-0" id="totalResumes">0</h4>
+                                    <small class="text-muted">Resumes</small>
+                                </div>
+                                <div class="col-4">
+                                    <h4 class="text-success mb-0" id="totalMatches">0</h4>
+                                    <small class="text-muted">Job Matches</small>
+                                </div>
+                                <div class="col-4">
+                                    <h4 class="text-info mb-0" id="avgMatchScore">0%</h4>
+                                    <small class="text-muted">Avg Match</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume History -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-history me-2"></i>
+                                Resume Analysis History
+                            </h5>
+                            <span class="badge bg-primary" id="resumeCount">0 resumes</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="resumeHistory">
+                                <div class="text-center text-muted py-4">
+                                    <i class="fas fa-inbox fa-3x mb-3"></i>
+                                    <p>No resume analyses found. Upload a resume to get started!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Matches -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-briefcase me-2"></i>
+                                Recent Job Matches
+                            </h5>
+                            <span class="badge bg-success" id="matchCount">0 matches</span>
+                        </div>
+                        <div class="card-body">
+                            <div id="jobMatches">
+                                <div class="text-center text-muted py-4">
+                                    <i class="fas fa-search fa-3x mb-3"></i>
+                                    <p>No job matches found. Analyze a resume to see recommendations!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Analysis -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-chart-pie me-2"></i>
+                                Skills Distribution
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="skillsChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                Match Score Trends
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="matchTrendChart" width="400" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skill Gap Analysis -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Skill Gap Recommendations
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="skillGapAnalysis">
+                                <div class="text-center text-muted py-4">
+                                    <i class="fas fa-lightbulb fa-3x mb-3"></i>
+                                    <p>Skill gap analysis will appear here after job matching</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center py-4">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h5>Loading your data...</h5>
+                    <p class="text-muted mb-0">Please wait while we fetch your information</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2024 Resume Analyzer & Job Match Recommender. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        let currentSessionId = null;
+        let skillsChart = null;
+        let matchTrendChart = null;
+
+        // Load user data based on session ID
+        async function loadUserData() {
+            const sessionId = document.getElementById('sessionIdInput').value.trim();
+            
+            if (!sessionId) {
+                alert('Please enter a session ID');
+                return;
+            }
+
+            // Show loading modal
+            const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+            loadingModal.show();
+
+            try {
+                const response = await fetch(`/api/history/${sessionId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    currentSessionId = sessionId;
+                    displayUserData(data);
+                    localStorage.setItem('sessionId', sessionId);
+                } else {
+                    alert('No data found for this session ID');
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                alert('Error loading data. Please try again.');
+            } finally {
+                loadingModal.hide();
+            }
+        }
+
+        // Display user data in dashboard
+        function displayUserData(data) {
+            // Update quick stats
+            document.getElementById('totalResumes').textContent = data.resumes.length;
+            document.getElementById('totalMatches').textContent = data.matches.length;
+            
+            // Calculate average match score
+            const avgScore = data.matches.length > 0 
+                ? (data.matches.reduce((sum, match) => sum + match.match_score, 0) / data.matches.length).toFixed(1)
+                : 0;
+            document.getElementById('avgMatchScore').textContent = avgScore + '%';
+
+            // Display resume history
+            displayResumeHistory(data.resumes);
+            
+            // Display job matches
+            displayJobMatches(data.matches);
+            
+            // Create charts
+            createSkillsChart(data.resumes);
+            createMatchTrendChart(data.matches);
+        }
+
+        // Display resume history
+        function displayResumeHistory(resumes) {
+            const container = document.getElementById('resumeHistory');
+            document.getElementById('resumeCount').textContent = `${resumes.length} resumes`;
+
+            if (resumes.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-inbox fa-3x mb-3"></i>
+                        <p>No resume analyses found.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const resumeHtml = resumes.map(resume => `
+                <div class="border rounded p-3 mb-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h6 class="mb-1">
+                                <i class="fas fa-file-alt me-2"></i>
+                                ${resume.filename}
+                            </h6>
+                            <p class="text-muted mb-1">
+                                <small>
+                                    <i class="fas fa-calendar me-1"></i>
+                                    ${new Date(resume.created_at).toLocaleDateString()}
+                                </small>
+                            </p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                ${resume.skills.slice(0, 5).map(skill => 
+                                    `<span class="badge bg-primary">${skill}</span>`
+                                ).join('')}
+                                ${resume.skills.length > 5 ? 
+                                    `<span class="badge bg-secondary">+${resume.skills.length - 5} more</span>` : ''
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="text-muted">
+                                <small>
+                                    <i class="fas fa-tools me-1"></i>
+                                    ${resume.skills.length} skills
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = resumeHtml;
+        }
+
+        // Display job matches
+        function displayJobMatches(matches) {
+            const container = document.getElementById('jobMatches');
+            document.getElementById('matchCount').textContent = `${matches.length} matches`;
+
+            if (matches.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-search fa-3x mb-3"></i>
+                        <p>No job matches found.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const matchesHtml = matches.slice(0, 10).map(match => `
+                <div class="border rounded p-3 mb-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h6 class="mb-1">${match.job_title}</h6>
+                            <p class="text-muted mb-1">${match.company}</p>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                ${new Date(match.created_at).toLocaleDateString()}
+                            </small>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="match-score">
+                                <span class="badge bg-success fs-6">${match.match_score}% Match</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = matchesHtml;
+        }
+
+        // Create skills distribution chart
+        function createSkillsChart(resumes) {
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            
+            // Count skill frequencies
+            const skillCounts = {};
+            resumes.forEach(resume => {
+                resume.skills.forEach(skill => {
+                    skillCounts[skill] = (skillCounts[skill] || 0) + 1;
+                });
+            });
+
+            const topSkills = Object.entries(skillCounts)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 8);
+
+            if (skillsChart) {
+                skillsChart.destroy();
+            }
+
+            skillsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: topSkills.map(([skill]) => skill),
+                    datasets: [{
+                        data: topSkills.map(([,count]) => count),
+                        backgroundColor: [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                            '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create match trend chart
+        function createMatchTrendChart(matches) {
+            const ctx = document.getElementById('matchTrendChart').getContext('2d');
+            
+            // Group matches by date
+            const matchesByDate = {};
+            matches.forEach(match => {
+                const date = new Date(match.created_at).toLocaleDateString();
+                if (!matchesByDate[date]) {
+                    matchesByDate[date] = [];
+                }
+                matchesByDate[date].push(match.match_score);
+            });
+
+            const dates = Object.keys(matchesByDate).sort();
+            const avgScores = dates.map(date => {
+                const scores = matchesByDate[date];
+                return scores.reduce((sum, score) => sum + score, 0) / scores.length;
+            });
+
+            if (matchTrendChart) {
+                matchTrendChart.destroy();
+            }
+
+            matchTrendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Average Match Score',
+                        data: avgScores,
+                        borderColor: '#36A2EB',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load session ID from localStorage on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedSessionId = localStorage.getItem('sessionId');
+            if (savedSessionId) {
+                document.getElementById('sessionIdInput').value = savedSessionId;
+            }
+        });
+    </script>
+</body>
+</html>
