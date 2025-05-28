@@ -4,6 +4,8 @@
 
 An intelligent web application that analyzes resumes using advanced NLP techniques and matches candidates with relevant job opportunities using real-time job data from multiple sources. Features dynamic skill learning, TF-IDF similarity scoring, and comprehensive skill gap analysis.
 
+![image](https://github.com/user-attachments/assets/53081cc5-e42e-47d5-b05e-4b0505d1fea8)
+
 ## ✨ Core Features
 
 - **🔍 Smart Resume Parsing**: Upload PDF/DOCX files with advanced text extraction
